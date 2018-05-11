@@ -1,0 +1,24 @@
+{% extends 'org_base.html' %}
+{% block title %}机构介绍 | kylin慕课小站{% endblock %}
+{% block page_path %}机构介绍{% endblock %}
+
+{% load staticfiles %}
+
+{# 重写页面中右侧机构介绍的内容 #}
+{% block right_form%}
+
+    <div class="right companycenter layout" >
+        <div class="head">
+            <h1>机构介绍</h1>
+        </div>
+
+        <div class="des">
+            <p>{{ course_org.desc }}</p>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+

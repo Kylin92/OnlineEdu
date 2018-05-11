@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block titile %}
+    公开课列表页 | kylin慕课小站
+{% endblock %}
+
+{% load staticfiles %}
+
+{# 面包屑 #}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li>公开课</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section>
+	<div class="wp">
+		<div class="list" style="margin-top:0;">
+			<div class="left layout">
+				<div class="head">
+					<ul class="tab_header">
+                        {# 此处的active是设置是否选中的高亮状态 #}
+						<li class="{% ifequal sort "" %}active{% endifequal %}">
+                            {# 此处的sort=xxx与后台编写的逻辑request.GET.get('sort', "")相对应 #}
+                            <a href="?sort=&keywords={{ search_keywords }}">最新 </a></li>
+						<li class="{% ifequal sort "hot" %}active{% endifequal %}">
+                            <a href="?sort=hot&keywords={{ search_keywords }}">最热门</a></li>
+						<li class="{% ifequal sort "students" %}active{% endifequal %}">
+                            <a href="?sort=students&keywords={{ search_keywords }}">参与人数</a></li>
+					</ul>
+				</div>
+
+                <div id="inWindow">
+                    <div class="tab_cont " id="content">
+                    {# 需要做替换修改的是左侧的内容 #}
+					<div class="group_list">
+                        {# 此时的all_course是一个纯purepage对象,所以需在其后加上一个object_list变量名 #}
+                        {% for course in all_course.object_list %}
+                            <div class="box">
+                                <a href="{% url 'course:course_detail' course.id %}">
+                                    {#  src="{{ MEDIA_URL }}{{ course.image }}" 此处是处理用户上传的图片的路径 #}
+                                    <img width="280" height="350" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                                </a>
+                                <div class="des">
+                                    <a href="{% url 'course:course_detail' course.id %}">
+                                        <h2>{{ course.name }}</h2>
+                                    </a>
+                                    <span class="fl">时长：<i class="key">{{ course.learn_times }}</i></span>
+                                    <span class="fr">学习人数：{{ course.students }}&nbsp;&nbsp;</span>
+                                </div>
+                                <div class="bottom">
+                                    {# course.course_org.name此处的course_org是外键 #}
+                                    <a href="{% url 'course:course_detail' course.id %}"><span class="fl">{{ course.course_org.name }}</span></a>
+                                    <span class="star fr  notlogin
+                                        " data-favid="15">
+                                        {{ course.fav_nums }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+					</div>
+
+                    {# 底部分页器的设置及操作 #}
+                    <div class="pageturn">
+                        <ul class="pagelist">
+                            {% if all_course.has_previous %}
+                                <li class="long"><a href="?{{ all_course.previous_page_number.querystring }}">上一页</a>
+                                </li>
+                            {% endif %}
+
+                            {% for page in all_course.pages %}
+                                {% if page %}
+                                    {% ifequal page all_course.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                    {% endifequal %}
+                                {% else %}
+                                    <li class="none"><a href="">...</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if all_course.has_next %}
+                                <li class="long"><a
+                                        href="?{{ all_course.next_page_number.querystring }}">下一页</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+				</div>
+                </div>
+			</div>
+
+			<div class="right layout">
+				<div class="head">热门课程推荐</div>
+				<div class="group_recommend">
+
+                {% for hot_course in hot_courses %}
+                    <dl>
+						<dt>
+							<a target="_blank" href="{% url 'course:course_detail' hot_course.id %}">
+								<img width="240" height="220" class="scrollLoading"
+                                     src="{{ MEDIA_URL }}{{ hot_course.image }}"/>
+							</a>
+						</dt>
+						<dd>
+							<a target="_blank" href="{% url 'course:course_detail' hot_course.id %}">
+                                <h2>{{ hot_course.name }}</h2></a>
+                            {# get_degree_display是专门用于choices字段在前端页面中显示的django默认的调用方法; #}
+                            {# degree是字段名称,get/display是django中固定的写法 #}
+							<span class="fl">难度：<i class="key">{{ hot_course.get_degree_display }}</i></span>
+						</dd>
+					</dl>
+                {% endfor %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+

@@ -1,0 +1,54 @@
+{% extends 'org_base.html' %}
+
+{# 此处是页面的名称标题,显示于浏览器上 #}
+{% block title %}机构课程页 | kylin慕课小站{% endblock %}
+
+{# 此处是面包屑加载显示 #}
+{% block page_path %}机构课程{% endblock %}
+
+{% load staticfiles %}
+
+{# 重写页面中右侧部分的内容 #}
+{# 复制org-detail-honepage页面内容致此;只需重写中间的right机构课程部分 #}
+
+{% block right_form%}
+
+    <div class="right companycenter layout" >
+		<div class="head">
+			<h1>机构课程</h1>
+		</div>
+
+		<div class="brief group_list">
+            {% for course in all_courses %}
+                <div class="module1_5 box">
+                    <a class="comp-img-box" href="course-detail.html">
+
+                        <img width="214" height="195" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                    </a>
+                    <div class="des">
+                        <a href="course-detail.html"><h2>{{ course.name }}</h2></a>
+                        <span class="fl">课时：<i class="key">{{ course.learn_times }}</i></span>
+                        <span class="fr">学习人数：{{ course.students }}</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="fl">{{ course.course_org.name }}</span>
+                         <span class="star fr  notlogin
+                            " data-favid="13" data-fav-type="4">
+                            {{ course.fav_nums }}
+                        </span>
+                    </div>
+                </div>
+            {%  endfor %}
+
+		</div>
+
+        <div class="pageturn">
+            <ul class="pagelist">
+                <li class="active"><a href="?page=1">1</a></li>
+            </ul>
+        </div>
+
+	</div>
+
+{% endblock %}
+
