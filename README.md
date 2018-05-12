@@ -21,3 +21,6 @@ the first edition
 * `思维导图如下：`
 ![](https://github.com/Kylin92/OnlineEdu/blob/master/images/001.PNG)
 
+##about me
+进击的python coder
+欢迎加群讨论：782228099
