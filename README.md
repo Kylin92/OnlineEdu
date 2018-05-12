@@ -1,4 +1,8 @@
 # OnlineEdu
+![](https://img.shields.io/badge/download-1k-brightgreen.svg)
+![](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![](https://img.shields.io/packagist/l/doctrine/orm.svg)
+
 the first edition
 结合之前职位的工作内容做了一次较为全面的功能完善，当然限于时间的原因有部分功能（xadmin的进阶开发）未做好完善，仅为后来者及自己往后的代码标记做保存；
 
